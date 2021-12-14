@@ -19,11 +19,7 @@ const REVIEW = gql`
 const ReviewDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const {
-    loading,
-    error,
-    data: { review }
-  } = useQuery(REVIEW, {
+  const { loading, error, data } = useQuery(REVIEW, {
     variables: { id }
   })
 
@@ -32,10 +28,10 @@ const ReviewDetails = () => {
 
   return (
     <div className='review-card'>
-      <div className='rating'>{review.data?.attributes?.rating}</div>
-      <h2>{review.data?.attributes?.title}</h2>
+      <div className='rating'>{data.review?.data?.attributes?.rating}</div>
+      <h2>{data.review?.data?.attributes?.title}</h2>
       <small>console list</small>
-      <p>{review.data?.attributes?.body}</p>
+      <p>{data.review?.data?.attributes?.body}</p>
       <button className='btn' onClick={() => navigate(-1)}>
         Go back
       </button>
