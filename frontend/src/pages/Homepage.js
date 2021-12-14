@@ -10,6 +10,14 @@ const REVIEWS = gql`
           title
           rating
           body
+          categories {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -24,13 +32,15 @@ const Homepage = () => {
 
   return (
     <div>
-      {data.reviews?.data?.map(item => (
-        <div key={item.id} className='review-card'>
-          <div className='rating'>{item.attributes.rating}</div>
-          <h2>{item.attributes.title}</h2>
-          <small>console list</small>
-          <p>{item.attributes.body.substring(0, 200)}...</p>
-          <Link to={`/details/${item.id}`}>Read more</Link>
+      {data.reviews?.data?.map(review => (
+        <div key={review.id} className='review-card'>
+          <div className='rating'>{review.attributes?.rating}</div>
+          <h2>{review.attributes?.title}</h2>
+          {review.attributes?.categories?.data.map(c => (
+            <small key={c.id}>{c.attributes?.name}</small>
+          ))}
+          <p>{review.attributes?.body?.substring(0, 200)}...</p>
+          <Link to={`/details/${review.id}`}>Read more</Link>
         </div>
       ))}
     </div>
