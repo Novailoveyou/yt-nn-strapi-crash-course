@@ -1,5 +1,6 @@
-import { useParams, useNavigate, Navigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import { useQuery, gql } from '@apollo/client'
+import ReactMarkdown from 'react-markdown'
 
 const REVIEW = gql`
   query GetReview($id: ID!) {
@@ -34,7 +35,6 @@ const ReviewDetails = () => {
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
 
-  console.log(data)
   return (
     <div className='review-card'>
       <div className='rating'>{data.review?.data?.attributes?.rating}</div>
@@ -42,7 +42,7 @@ const ReviewDetails = () => {
       {data.review?.data?.attributes?.categories?.data.map(c => (
         <small key={c.id}>{c.attributes?.name}</small>
       ))}
-      <p>{data.review?.data?.attributes?.body}</p>
+      <ReactMarkdown>{data.review?.data?.attributes?.body}</ReactMarkdown>
       <button className='btn' onClick={() => navigate(-1)}>
         Go back
       </button>
